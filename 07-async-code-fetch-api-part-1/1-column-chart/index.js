@@ -69,13 +69,7 @@ export default class ColumnChart {
     return this.link ? `<a class="column-chart__link" href="${this.link}">View all</a>` : '';
   }
 
-  getKostile() {
-    const arr = [];
-    for (let i = 0; i < 31; i++){
-      arr.push(`<div> </div>`);
-    }
-    return arr.join('');
-  }
+
 
   getTemplate() {
     return `
@@ -88,10 +82,7 @@ export default class ColumnChart {
           <div data-element="header" class="column-chart__header">
           </div>
           <div data-element="body" class="column-chart__chart">
-          ${ this.getKostile() //данные на тесте should render data correctly проверяются до того,
-      // как прилетают от сервера, это моя ошибка или в тесте что-то не так?
-      // Ваше решение у меня также не проходит данный тест
-            }
+
           </div>
         </div>
       </div>
