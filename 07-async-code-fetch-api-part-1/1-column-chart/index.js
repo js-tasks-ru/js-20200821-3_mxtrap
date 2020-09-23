@@ -21,7 +21,11 @@ export default class ColumnChart {
 
   }
   async getDataFromServer(url, range) {
-    const response = await fetch(`${BACKEND_URL + url}?from=${range.from}&to=${range.to}`);
+    const reqUrl = new URL(url, BACKEND_URL);
+    reqUrl.searchParams.set('from', range.from);
+    reqUrl.searchParams.set('to', range.to);
+
+    const response = await fetch(reqUrl.toString());
     return await response.json();
   }
 

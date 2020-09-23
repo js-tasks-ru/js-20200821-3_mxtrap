@@ -45,7 +45,14 @@ export default class SortableTable {
 
 
   async getDataFromServer(id, order, start, end) {
-    const response = await fetch(`${BACKEND_URL + this.url}?_sort=${id}&_order=${order}&_start=${start}&_end=${end}`);
+    const reqUrl = new URL(this.url, BACKEND_URL);
+    reqUrl.searchParams.set('_sort', id);
+    reqUrl.searchParams.set('_order', order);
+    reqUrl.searchParams.set('_start', start);
+    reqUrl.searchParams.set('_end', end);
+
+
+    const response = await fetch(reqUrl.toString());
     return await response.json();
   }
 
@@ -149,11 +156,14 @@ export default class SortableTable {
   sortData(field, order, array) {
     const arr = [...array];
     const column = this.headerStructure.find(item=>item.id === field);
-    const direction = order === 'asc' ? 1 : -1;
+    const direction = {
+      'asc': 1,
+      'desc': -1
+    };
     const sortTypeFunctions = {
-      number: (a, b)=>direction * (a[field] - b[field]),
-      string: (a, b)=>direction * a[field].localeCompare(b[field], 'ru'),
-      custom: (a, b)=>direction * column.custom(a, b)
+      number: (a, b)=>direction[order] * (a[field] - b[field]),
+      string: (a, b)=>direction[order] * a[field].localeCompare(b[field], 'ru'),
+      custom: (a, b)=>direction[order] * column.custom(a, b)
     };
     const sortFunc = sortTypeFunctions[column.sortType];
 
