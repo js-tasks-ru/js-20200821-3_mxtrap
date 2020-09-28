@@ -50,7 +50,7 @@ export default class RangePicker {
     document.addEventListener('click', this.onDocumentClick, true);
 
     input.addEventListener('click', () => this.toggle());
-    selector.addEventListener('click', event => this.onSelectorClick(event));
+    selector.addEventListener('click', event => this.onSelectorClick(event.target));
   }
 
   toggle() {
@@ -58,7 +58,7 @@ export default class RangePicker {
     this.renderRange();
   }
 
-  onSelectorClick({target}) {
+  onSelectorClick(target) {
     if (target.classList.contains('rangepicker__cell')) {
       this.onCellClick(target);
     }
